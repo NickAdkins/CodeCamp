@@ -1,11 +1,16 @@
 from django.shortcuts import render
+from django.models import Q
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Project, Group, Contact, Room, Category, Item, AddOn
+from .forms import RoomForm
 
 # Create your views here.
+"""
+    Groups
+"""
 class GroupListView(ListView):
     model = Group
 
@@ -42,4 +47,51 @@ class GroupDeleteView(SuccessMessageMixin, DeleteView):
     model = Group
     success_url = reverse_lazy('bm:group_list')
     success_message = "Group %(name)s deleted successfully!"
+    
+"""
+    Rooms
+"""
+class RoomListView(ListView):
+    model = Room
+
+    def get_queryset(self):
+        return Room.objects.filter(
+            Q(project__builder__user = self.request.user) |
+            Q(project__buyer__user = self.request.user) 
+        ).order_by['project']
+
+class RoomDetailView(DetailView):
+    model = Room
+    
+    # Make it so that users don't see objects that belong to someone else
+    def get_queryset(self):
+        return Room.objects.filter(user = self.request.user)
+
+
+class RoomCreateView(SuccessMessageMixin, CreateView):
+    model = Room
+    success_url = reverse_lazy('bm:room_list')
+    success_message = "Room %(name)s created successfully!"
+    form_class = RoomForm
+
+    def get_form_kwargs(self):
+        kwargs = super(RoomCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class RoomUpdateView(SuccessMessageMixin, UpdateView):
+    model = Room
+    success_url = reverse_lazy('bm:room_list')
+    success_message = "Room %(name)s updated successfully!"
+    form_class = RoomForm
+    
+    def get_form_kwargs(self):
+        kwargs = super(RoomUpdateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class RoomDeleteView(SuccessMessageMixin, DeleteView):
+    model = Room
+    success_url = reverse_lazy('bm:room_list')
+    success_message = "Room %(name)s deleted successfully!"
     
