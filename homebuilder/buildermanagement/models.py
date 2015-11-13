@@ -47,9 +47,15 @@ class Room(models.Model):
     name = models.CharField(max_length = 200)
     project = models.ForeignKey('Project')
     sqfootage = models.IntegerField()
+    slug = models.SlugField()
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Room, self).save(*args, **kwargs)
+
 
 class Contact(models.Model):
     contact_type = models.CharField(max_length = 2, choices=CONTACT_TYPES)
@@ -87,7 +93,6 @@ class AddOn(models.Model):
         return self.item_description
 
 class Project(models.Model):
-    buyer = models.ForeignKey(Contact)
     name = models.CharField(max_length = 200)
     buyer = models.ForeignKey(Contact, related_name='buyer_set')
     plansfile = models.FileField(upload_to="files/%Y/%m/%d", blank=True, null=True)
