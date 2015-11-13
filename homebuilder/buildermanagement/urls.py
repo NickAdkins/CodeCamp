@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from .models import Project, Group, Contact, Room, Category, Item, AddOn
-from .views import GroupViewSet
+from . import views
 
-urlpatterns = patterns('',
-    url('', include(GroupViewSet().urls)),
-)
+urlpatterns = [
+    url('groups/$', views.GroupListView.as_view(), name="group_list"),
+]
