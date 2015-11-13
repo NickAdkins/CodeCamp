@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Create or Update A Category{% endblock %}
+
+{% block content %}
+{% if object %}
+<h1>Update Category</h1>
+{% else %}
+<h1>Create Category</h1>
+{% endif %}
+<hr>
+
+<form action="." method="POST">
+{% csrf_token %}
+<table class="table">
+{{ form }}
+<tr>
+<td colspan="2" align="right">
+    <button type="submit">
+        {% if object %}
+        Update
+        {% else %}
+        Create
+        {% endif %}
+    </button>
+</td>
+</tr>
+</table>
+</form>
+
+<a href="{% url 'bm:category_list' %}">Back To Category List</a>
+
+{% endblock %}

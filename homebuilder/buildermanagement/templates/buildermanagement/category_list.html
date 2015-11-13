@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Categories{% endblock %}
+
+{% block content %}
+<h1>List of Categories</h1>
+<hr>
+
+<table class="table">
+<tr>
+    <td>Name</td>
+    <td></td>
+    <td></td>
+</tr>
+{% for category in category_list %}
+<tr>
+    <td>
+    {{ category.name }}
+    </td>
+    <td>
+        <a href="{% url 'bm:category_update' category.slug %}">Edit</a>
+    </td>
+    <td>
+        <a href="{% url 'bm:category_delete' category.slug %}">Delete</a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td><b>You have no categories.</b></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="{% url 'bm:category_create' %}">Add A New Category</a>
+
+{% endblock %}
+
