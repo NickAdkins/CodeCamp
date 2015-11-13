@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.text import slugify
 import datetime
 
 # Create your models here.
@@ -14,9 +15,17 @@ CONTACT_TYPES = (
 class Group(models.Model):
     name = models.CharField(max_length = 200)
     user = models.ForeignKey(User)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Group, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
 
 class Category(models.Model):
     name = models.CharField(max_length = 200)
