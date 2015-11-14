@@ -17,4 +17,11 @@ urlpatterns = [
     url('^room/(?P<slug>[\w-]+)/update/$', login_required(views.RoomUpdateView.as_view()), name="room_update"),
     url('^room/(?P<slug>[\w-]+)/delete/$', login_required(views.RoomDeleteView.as_view()), name="room_delete"),
     url('^room/(?P<slug>[\w-]+)/$', login_required(views.RoomDetailView.as_view()), name="room_detail"),
+
+    # Items
+    url('^items/$', login_required(views.ItemListView.as_view()), name="item_list"),
+    url('^item/new/$', login_required(views.ItemCreateView.as_view()), name="item_create"),
+    url('^item/(?P<pk>\d+)/update/$', login_required(views.ItemUpdateView.as_view()), name="item_update"),
+    url('^item/(?P<pk>\d+)/delete/$', login_required(views.ItemDeleteView.as_view()), name="item_delete"),
+    url('^item/(?P<pk>\d+)/$', login_required(views.ItemDetailView.as_view()), name="item_detail"),
 ]

@@ -67,9 +67,9 @@ class Item(models.Model):
     room = models.ManyToManyField(Room)
     material = models.CharField(max_length = 200)
     detail = models.TextField(max_length = 200)
-    cost = models.IntegerField()
+    cost = models.IntegerField(default=0)
     picture = models.ImageField(upload_to ="images/%Y/%m/%d", blank=True, null=True)
-    picture_url = models.URLField(max_length = 200, blank=True, null=True)
+    picture_url = models.URLField(max_length=200, blank=True, null=True)
     estimate_needed= models.BooleanField(default=False)
 
     def __unicode__(self):

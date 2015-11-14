@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from django.models import Q
+from django.db.models import Q
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Project, Group, Contact, Room, Category, Item, AddOn
-from .forms import RoomForm
+from .forms import RoomForm, ItemForm
 
 # Create your views here.
 """
@@ -58,7 +58,7 @@ class RoomListView(ListView):
         return Room.objects.filter(
             Q(project__builder__user = self.request.user) |
             Q(project__buyer__user = self.request.user) 
-        ).order_by['project']
+        ).order_by('project')
 
 class RoomDetailView(DetailView):
     model = Room
@@ -94,4 +94,54 @@ class RoomDeleteView(SuccessMessageMixin, DeleteView):
     model = Room
     success_url = reverse_lazy('bm:room_list')
     success_message = "Room %(name)s deleted successfully!"
+    
+"""
+    Items
+"""
+class ItemListView(ListView):
+    model = Item
+
+    def get_queryset(self):
+        return Item.objects.filter(
+            Q(project__builder__user = self.request.user) |
+            Q(project__buyer__user = self.request.user) 
+        ).order_by('project')
+
+class ItemDetailView(DetailView):
+    model = Item
+    
+    # Make it so that users don't see objects that belong to someone else
+    def get_queryset(self):
+        return Item.objects.filter(
+            Q(project__builder__user = self.request.user) | 
+            Q(project__buyer__user = self.request.user) 
+        )
+
+
+class ItemCreateView(SuccessMessageMixin, CreateView):
+    model = Item
+    success_url = reverse_lazy('bm:item_list')
+    success_message = "Item %(material)s created successfully!"
+    form_class = ItemForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ItemCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class ItemUpdateView(SuccessMessageMixin, UpdateView):
+    model = Item
+    success_url = reverse_lazy('bm:item_list')
+    success_message = "Item %(material)s updated successfully!"
+    form_class = ItemForm
+    
+    def get_form_kwargs(self):
+        kwargs = super(ItemUpdateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class ItemDeleteView(SuccessMessageMixin, DeleteView):
+    model = Item
+    success_url = reverse_lazy('bm:item_list')
+    success_message = "Item %(material)s deleted successfully!"
     
