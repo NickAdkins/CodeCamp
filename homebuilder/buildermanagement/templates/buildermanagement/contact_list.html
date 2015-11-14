@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load humanize thumbnail %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<h1>List of Contacts</h1>
+<hr>
+
+<table class="table">
+<tr>
+    <td>Name</td>
+    <td>Contact Type</td>
+    <td>Group</td>
+    <td>Email</td>
+    <td>Address</td>
+    <td>Phone</td>
+    <td>Phone 2</td>
+    <td></td>
+    <td></td>
+</tr>
+{% for contact in contact_list %}
+<tr>
+    <td>
+    {{ contact.name }}
+    </td>
+    <td>
+    {{ contact.get_contact_type_display }}
+    </td>
+    <td>
+    {{ contact.group }}
+    </td>
+    <td>
+    {{ contact.email }}
+    </td>
+    <td>
+    {{ contact.address }}
+    </td>
+    <td>
+    {{ contact.phone1 }}
+    </td>
+    <td>
+    {{ contact.phone2 }}
+    </td>
+    <td>
+        <a href="{% url 'bm:contact_update' contact.slug %}">Edit</a>
+    </td>
+    <td>
+        <a href="{% url 'bm:contact_delete' contact.slug %}">Delete</a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td><b>You have no contacts.</b></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="{% url 'bm:contact_create' %}">Add A New Contact</a>
+
+{% endblock %}
+
+
+

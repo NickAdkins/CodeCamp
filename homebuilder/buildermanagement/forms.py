@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import Q
-from .models import Room, Project, Contact, Item, Category
+from .models import Room, Project, Contact, Item, Category, Contact, Group
 
 class RoomForm(forms.ModelForm):
    class Meta:
@@ -41,4 +41,16 @@ class CategoryForm(forms.ModelForm):
 
    def __init__(self, request, *args, **kwargs):
       super(CategoryForm, self).__init__(*args, **kwargs)
-      self.fields['project'].queryset = Project.objects.filter(builder__user = request.user)
+      self.fields['project'].queryset = Project.objects.filter(
+          Q(builder__user = request.user) |
+          Q(buyer__user = request.user) 
+      )
+
+class ContactForm(forms.ModelForm):
+   class Meta:
+       model = Contact
+       fields = ['name', 'contact_type', 'group', 'email', 'address', 'phone1', 'phone2']
+
+   def __init__(self, request, *args, **kwargs):
+      super(ContactForm, self).__init__(*args, **kwargs)
+      self.fields['group'].queryset = Group.objects.filter(user = request.user)
