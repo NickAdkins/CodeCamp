@@ -61,8 +61,8 @@ class ProjectListView(ListView):
 
     def get_queryset(self):
         return Project.objects.filter(
-            Q(builder__user = self.request.user) | 
-            Q(buyer__user = self.request.user) 
+            Q(builder__user = self.request.user) |
+            Q(buyer__user = self.request.user)
         )
 
 
@@ -78,6 +78,9 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         # Set the builder
         project = form.save(commit=False)
+        if 'plansfile' in self.request.FILES:
+            project.plansfile = self.get_form_kwargs().get('files')['plansfile']
+            project.save()
         project.builder = Contact.objects.get(user = self.request.user)
         return super(ProjectCreateView, self).form_valid(form)
 
@@ -237,7 +240,7 @@ class ItemDeleteView(SuccessMessageMixin, DeleteView):
     model = Item
     success_url = reverse_lazy('bm:item_list')
     success_message = "Item %(material)s deleted successfully!"
-    
+
    ######AddOn#######
 
 class AddOnListView(ListView):
@@ -246,22 +249,22 @@ class AddOnListView(ListView):
     def get_queryset(self):
         return AddOn.objects.filter(
             Q(item__project__builder__user = self.request.user) |
-            Q(item__project__buyer__user = self.request.user) 
+            Q(item__project__buyer__user = self.request.user)
         )#.order_by('project')
 
 class AddOnDetailView(DetailView):
-    model = AddOn 
-    
+    model = AddOn
+
     # Make it so that users don't see objects that belong to someone else
     def get_queryset(self):
         return AddOn.objects.filter(
-            Q(item__project__builder__user = self.request.user) | 
-            Q(item__project__buyer__user = self.request.user) 
+            Q(item__project__builder__user = self.request.user) |
+            Q(item__project__buyer__user = self.request.user)
         )
 
 
 class AddOnCreateView(SuccessMessageMixin, CreateView):
-    model = AddOn 
+    model = AddOn
     success_url = reverse_lazy('bm:addon_list')
     success_message = "AddOn %(item_description)s created successfully!"
     form_class = AddOnForm
@@ -272,21 +275,21 @@ class AddOnCreateView(SuccessMessageMixin, CreateView):
         return kwargs
 
 class AddOnUpdateView(SuccessMessageMixin, UpdateView):
-    model = AddOn 
+    model = AddOn
     success_url = reverse_lazy('bm:addon_list')
     success_message = "AddOn %(item_description)s updated successfully!"
     form_class = AddOnForm
-    
+
     def get_form_kwargs(self):
         kwargs = super(AddOnUpdateView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
 class AddOnDeleteView(SuccessMessageMixin, DeleteView):
-    model = AddOn 
+    model = AddOn
     success_url = reverse_lazy('bm:addon_list')
     success_message = "AddOn %(item_description)s deleted successfully!"
- 
+
 """
     Contacts
 """
@@ -298,7 +301,7 @@ class ContactListView(ListView):
 
 class ContactDetailView(DetailView):
     model = Contact
-    
+
     # Make it so that users don't see objects that belong to someone else
     def get_queryset(self):
         return Contact.objects.filter(group__user = self.request.user)
@@ -320,7 +323,7 @@ class ContactUpdateView(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('bm:contact_list')
     success_message = "Contact %(name)s updated successfully!"
     form_class = ContactForm
-    
+
     def get_form_kwargs(self):
         kwargs = super(ContactUpdateView, self).get_form_kwargs()
         kwargs['request'] = self.request
@@ -330,7 +333,7 @@ class ContactDeleteView(SuccessMessageMixin, DeleteView):
     model = Contact
     success_url = reverse_lazy('bm:contact_list')
     success_message = "Contact %(name)s deleted successfully!"
-    
+
 """
     Phases
 """
@@ -339,18 +342,18 @@ class PhaseListView(ListView):
 
     def get_queryset(self):
         return Phase.objects.filter(
-            Q(project__builder__user = self.request.user) | 
-            Q(project__buyer__user = self.request.user) 
+            Q(project__builder__user = self.request.user) |
+            Q(project__buyer__user = self.request.user)
         )
 
 class PhaseDetailView(DetailView):
     model = Phase
-    
+
     # Make it so that users don't see objects that belong to someone else
     def get_queryset(self):
         return Phase.objects.filter(
-            Q(project__builder__user = self.request.user) | 
-            Q(project__buyer__user = self.request.user) 
+            Q(project__builder__user = self.request.user) |
+            Q(project__buyer__user = self.request.user)
         )
 
 
@@ -370,7 +373,7 @@ class PhaseUpdateView(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('bm:phase_list')
     success_message = "Phase %(name)s updated successfully!"
     form_class = PhaseForm
-    
+
     def get_form_kwargs(self):
         kwargs = super(PhaseUpdateView, self).get_form_kwargs()
         kwargs['request'] = self.request
@@ -380,4 +383,4 @@ class PhaseDeleteView(SuccessMessageMixin, DeleteView):
     model = Phase
     success_url = reverse_lazy('bm:phase_list')
     success_message = "Phase %(name)s deleted successfully!"
-    
+
