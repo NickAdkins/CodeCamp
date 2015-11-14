@@ -38,5 +38,4 @@ urlpatterns = [
     url('^item/(?P<pk>\d+)/update/$', login_required(views.ItemUpdateView.as_view()), name="item_update"),
     url('^item/(?P<pk>\d+)/delete/$', login_required(views.ItemDeleteView.as_view()), name="item_delete"),
     url('^item/(?P<pk>\d+)/$', login_required(views.ItemDetailView.as_view()), name="item_detail"),
->>>>>>> 9fac3179f75428af1d2d2abbdfa5a335202caf3b
 ]
