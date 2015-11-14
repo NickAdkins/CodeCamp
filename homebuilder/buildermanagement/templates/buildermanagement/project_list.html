@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Project List{% endblock %}
+
+{% block content %}
+
+<ul>
+{% for project in project_list %}
+<a href="{% url 'bm:project_detail' project.slug %}"><li> Project: {{ project.name }}</li>
+<a href="{% url 'bm:project_create' %}"><li> Create {{ project.name }}</li>
+<a href="{% url 'bm:project_update' project.slug %}"><li>Update {{ project.name }}</li>
+  <a href="{% url 'bm:project_delete' project.slug %}"><li>Delete {{ project.name }}</li>
+{% empty %}
+<li>You have no projects yet. Want to <a href="{% url 'bm:project_create' %}">create one?</a><li>
+{% endfor %}
+</ul>
+
+{% endblock %}

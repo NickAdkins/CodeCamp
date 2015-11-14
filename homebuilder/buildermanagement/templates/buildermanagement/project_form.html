@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if project %}Update {{ project.name }} {% else %}Create a Project{% endif %}{% endblock %}
+
+{% block content %}
+
+<form action="." method="post">
+  {% csrf_token %}
+  {{ form }}
+  <button class="btn btn-default">{% if project %}Update{% else %}Create{% endif %}</button>
+</form>
+
+{% endblock %}

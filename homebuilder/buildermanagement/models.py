@@ -85,6 +85,11 @@ class Item(models.Model):
     picture = models.ImageField(upload_to ="images/%Y/%m/%d", blank=True, null=True)
     picture_url = models.URLField(max_length=200, blank=True, null=True)
     estimate_needed= models.BooleanField(default=False)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.material)
+        return super(Item, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.material
@@ -104,6 +109,11 @@ class Project(models.Model):
     builder = models.ForeignKey(Contact, related_name='builder_set')
     address = models.TextField(blank=True, null=True)
     budget = models.IntegerField(blank=True, null=True)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Project, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name

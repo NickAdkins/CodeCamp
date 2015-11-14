@@ -11,6 +11,13 @@ urlpatterns = [
     url('^groups/(?P<slug>[\w-]+)/delete/$', login_required(views.GroupDeleteView.as_view()), name="group_delete"),
     url('^groups/(?P<slug>[\w-]+)/$', login_required(views.GroupDetailView.as_view()), name="group_detail"),
 
+    # Projects
+    url('projects/$', views.ProjectListView.as_view(), name="project_list"),
+    url('projects/create/$', login_required(views.ProjectCreateView.as_view()), name="project_create"),
+    url('projects/(?P<slug>[\w-]+)/$', login_required(views.ProjectDetailView.as_view()), name="project_detail"),
+    url('projects/(?P<slug>[\w-]+)/update/$', login_required(views.ProjectUpdateView.as_view()), name="project_update"),
+    url('projects/(?P<slug>[\w-]+)/delete/$', login_required(views.ProjectDeleteView.as_view()), name="project_delete"),
+
     # Categories
     url('^categories/$', login_required(views.CategoryListView.as_view()), name="category_list"),
     url('^categories/new/$', login_required(views.CategoryCreateView.as_view()), name="category_create"),
