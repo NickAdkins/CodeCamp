@@ -105,7 +105,7 @@ class AddOn(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length = 200)
     buyer = models.ForeignKey(Contact, related_name='buyer_set')
-    plansfile = models.FileField(upload_to="files/%Y/%m/%d", blank=True, null=True)
+    plansfile = models.FileField('Plans file', upload_to="files/%Y/%m/%d", blank=True, null=True)
     builder = models.ForeignKey(Contact, related_name='builder_set')
     address = models.TextField(blank=True, null=True)
     budget = models.IntegerField(blank=True, null=True)

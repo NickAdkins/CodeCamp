@@ -4,15 +4,36 @@
 
 {% block content %}
 
-<ul>
+<h1>Project List</h1>
+<table class="table">
+<tr>
+    <th>Project Name</th>
+    <th>Builder</th>
+    <th>Buyer</th>
+    <th>Plans</th>
+    <th>Address</th>
+    <th>Budget</th>
+    <th></th>
+    <th></th>
+</tr>
 {% for project in project_list %}
-<a href="{% url 'bm:project_detail' project.slug %}"><li> Project: {{ project.name }}</li>
-<a href="{% url 'bm:project_create' %}"><li> Create {{ project.name }}</li>
-<a href="{% url 'bm:project_update' project.slug %}"><li>Update {{ project.name }}</li>
-  <a href="{% url 'bm:project_delete' project.slug %}"><li>Delete {{ project.name }}</li>
+<tr>
+    <td><a href="{% url 'bm:project_detail' project.slug %}">{{ project.name }}</a></td>
+    <td>{{ project.builder }}</td>
+    <td>{{ project.buyer }}</td>
+    <td>{% if project.plans %}<a href="{{ project.plans }}">Link</a>{% endif %}</td>
+    <td>{{ project.address }}</td>
+    <td>{{ project.budget }}</td>
+    <td><a href="{% url 'bm:project_update' project.slug %}">Edit</a></td>
+    <td><a href="{% url 'bm:project_delete' project.slug %}">Delete</a></td>
+</tr>
 {% empty %}
-<li>You have no projects yet. Want to <a href="{% url 'bm:project_create' %}">create one?</a><li>
+<tr>
+<td colspan="8">You have no projects yet. Want to <a href="{% url 'bm:project_create' %}">create one?</a></td>>
+</tr>
 {% endfor %}
-</ul>
+</table>
+
+<a href="{% url 'bm:project_create' %}">Create A New Project</a>
 
 {% endblock %}
