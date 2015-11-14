@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
+from django.contrib import messages
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -42,10 +43,14 @@ class GroupUpdateView(SuccessMessageMixin, UpdateView):
     success_message = "Group %(name)s updated successfully!"
     fields = ['name']
 
-class GroupDeleteView(SuccessMessageMixin, DeleteView):
+class GroupDeleteView(DeleteView):
     model = Group
     success_url = reverse_lazy('bm:group_list')
-    success_message = "Group %(name)s deleted successfully!"
+    success_message = "Group deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(GroupDeleteView, self).delete(request, *args, **kwargs)
 
 """
     Project
@@ -60,7 +65,7 @@ class ProjectListView(ListView):
 class ProjectDetailView(DetailView):
     model = Project
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(SuccessMessageMixin, CreateView):
     model = Project
     fields = ['name', 'plansfile', 'address', 'budget', 'buyer']
     success_url = reverse_lazy('bm:project_list')
@@ -72,7 +77,7 @@ class ProjectCreateView(CreateView):
         project.builder = Contact.objects.get(user = self.request.user)
         return super(ProjectCreateView, self).form_valid(form)
 
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(SuccessMessageMixin, UpdateView):
     model = Project
     fields = ['name', 'plansfile', 'address', 'budget', 'buyer']
     success_url = reverse_lazy('bm:project_list')
@@ -81,7 +86,11 @@ class ProjectUpdateView(UpdateView):
 class ProjectDeleteView(DeleteView):
     model = Project
     success_url = reverse_lazy('bm:project_list')
-    success_message = "%(name)s was deleted successfully"
+    success_message = "Project deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(ProjectDeleteView, self).delete(request, *args, **kwargs)
 
 """
    Category

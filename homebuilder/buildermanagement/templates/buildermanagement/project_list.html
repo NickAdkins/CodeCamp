@@ -5,9 +5,9 @@
 {% block content %}
 
 <ul>
+<a href="{% url 'bm:project_create' %}"><li> Create</li>
 {% for project in project_list %}
 <a href="{% url 'bm:project_detail' project.slug %}"><li> Project: {{ project.name }}</li>
-<a href="{% url 'bm:project_create' %}"><li> Create {{ project.name }}</li>
 <a href="{% url 'bm:project_update' project.slug %}"><li>Update {{ project.name }}</li>
   <a href="{% url 'bm:project_delete' project.slug %}"><li>Delete {{ project.name }}</li>
 {% empty %}
