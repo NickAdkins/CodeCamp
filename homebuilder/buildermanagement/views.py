@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Project, Group, Contact, Room, Category, Item, AddOn, Phase
-from .forms import RoomForm, CategoryForm, ItemForm, ContactForm, PhaseForm
+from .forms import RoomForm, CategoryForm, ItemForm, ContactForm, PhaseForm, AddOnForm
 
 # Create your views here.
 """
