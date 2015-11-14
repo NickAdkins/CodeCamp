@@ -381,3 +381,36 @@ class PhaseDeleteView(SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('bm:phase_list')
     success_message = "Phase %(name)s deleted successfully!"
     
+""" 
+Home Page Views
+"""
+
+class BuilderView(TemplateView):
+    template_name = 'buildermanager/builder_home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(BuilderView, self).get_context_data(**kwargs)
+        context['project_list'] = Project.objects.filter(builder__user = self.request.user)
+        context['contact_list'] = Contact.objects.filter(group__user = self.request.user)
+        return context
+
+class BuyerView(TemplateView):
+    template_name = 'buildermanager/builder_home.html'
+
+class SubcontractorView(TemplateView):
+    template_name = 'buildermanager/builder_home.html'
+
+class HomePageView(View):
+
+    builder_view = staticmethod(BuilderView.as_view())
+    buyer_view = staticmethod(BuyerView.as_view())
+    subcontractor_view = staticmethod(SubcontractorView.as_view())
+
+    def dispatch(self, request, *args, **kwargs):
+        if Project.objects.get(builder__user = request.user)[0]:
+            return self.builder_view(request, *args, **kwargs)
+        elif Project.objects.get(buyer__user = request.user)[0]:
+            return self.buyer_view(request, *args, **kwargs)
+        else:
+            return self.subcontractor_view(request, *args, **kwargs)
+
