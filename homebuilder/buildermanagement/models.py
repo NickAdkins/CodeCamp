@@ -128,6 +128,10 @@ class Phase(models.Model):
     completed = models.BooleanField(default=False)
     slug = models.SlugField()
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Phase, self).save(*args, **kwargs)
+
     def __unicode__(self):
         return self.name
 
