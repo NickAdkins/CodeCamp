@@ -2,6 +2,20 @@
 {% load humanize thumbnail %}
 {% block title %}Phases{% endblock %}
 
+{% block extrascript %}
+<script>
+$(document).ready(function() {
+
+    // page is now ready, initialize the calendar...
+
+    $('#calendar').fullCalendar({
+        // put your options and callbacks here
+    })
+
+});
+</script>
+{% endblock %}
+
 {% block content %}
 <h1>List of Phases</h1>
 <hr>
@@ -56,6 +70,8 @@
 </table>
 
 <a href="{% url 'bm:phase_create' %}">Add A New Phase</a>
+
+<div id='calendar'></div>
 
 {% endblock %}
 

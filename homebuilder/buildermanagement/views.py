@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Q
 from django.contrib import messages
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
@@ -403,7 +403,40 @@ class PhaseDeleteView(SuccessMessageMixin, DeleteView):
     model = Phase
     success_url = reverse_lazy('bm:phase_list')
     success_message = "Phase deleted successfully!"
-
+    
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, self.success_message)
         return super(PhaseDeleteView, self).delete(request, *args, **kwargs)
+""" 
+Home Page Views
+"""
+
+class BuilderView(TemplateView):
+    template_name = 'buildermanager/builder_home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(BuilderView, self).get_context_data(**kwargs)
+        context['project_list'] = Project.objects.filter(builder__user = self.request.user)
+        context['contact_list'] = Contact.objects.filter(group__user = self.request.user)
+        return context
+
+class BuyerView(TemplateView):
+    template_name = 'buildermanager/builder_home.html'
+
+class SubcontractorView(TemplateView):
+    template_name = 'buildermanager/builder_home.html'
+
+class HomePageView(View):
+
+    builder_view = staticmethod(BuilderView.as_view())
+    buyer_view = staticmethod(BuyerView.as_view())
+    subcontractor_view = staticmethod(SubcontractorView.as_view())
+
+    def dispatch(self, request, *args, **kwargs):
+        if Project.objects.get(builder__user = request.user)[0]:
+            return self.builder_view(request, *args, **kwargs)
+        elif Project.objects.get(buyer__user = request.user)[0]:
+            return self.buyer_view(request, *args, **kwargs)
+        else:
+            return self.subcontractor_view(request, *args, **kwargs)
+
