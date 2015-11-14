@@ -119,13 +119,17 @@ class Project(models.Model):
         return self.name
 
 class Phase(models.Model):
+    name = models.CharField(max_length=200)
+    project = models.ForeignKey(Project)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    order_materials_by = models.DateTimeField(blank=True, null=True)
+    depends_on = models.ForeignKey('self', blank=True, null=True)
     completed = models.BooleanField(default=False)
-    name = models.CharField(max_length=200)
-    order_by = models.DateTimeField()
-    contact = models.ForeignKey(Contact)
-    depends_on = models.ForeignKey('Phase', blank=True, null=True)
+    slug = models.SlugField()
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['start_date', 'completed']

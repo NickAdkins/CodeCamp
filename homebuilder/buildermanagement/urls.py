@@ -39,10 +39,24 @@ urlpatterns = [
     url('^item/(?P<pk>\d+)/delete/$', login_required(views.ItemDeleteView.as_view()), name="item_delete"),
     url('^item/(?P<pk>\d+)/$', login_required(views.ItemDetailView.as_view()), name="item_detail"),
 
+    #AddOn
+    url('^addons/$', login_required(views.AddOnListView.as_view()), name="addon_list"),
+    url('^addon/new/$', login_required(views.AddOnCreateView.as_view()), name="addon_create"),
+    url('^addon/(?P<pk>\d+)/update/$', login_required(views.AddOnUpdateView.as_view()), name="addon_update"),
+    url('^addon/(?P<pk>\d+)/delete/$', login_required(views.AddOnDeleteView.as_view()), name="addon_delete"),
+    url('^addon/(?P<pk>\d+)/$', login_required(views.AddOnDetailView.as_view()), name="addon_detail"),
+    
     # Contacts
     url('^contacts/$', login_required(views.ContactListView.as_view()), name="contact_list"),
     url('^contact/new/$', login_required(views.ContactCreateView.as_view()), name="contact_create"),
     url('^contact/(?P<slug>[\w-]+)/update/$', login_required(views.ContactUpdateView.as_view()), name="contact_update"),
     url('^contact/(?P<slug>[\w-]+)/delete/$', login_required(views.ContactDeleteView.as_view()), name="contact_delete"),
     url('^contact/(?P<slug>[\w-]+)/$', login_required(views.ContactDetailView.as_view()), name="contact_detail"),
+
+    # Phases
+    url('^phases/$', login_required(views.PhaseListView.as_view()), name="phase_list"),
+    url('^phase/new/$', login_required(views.PhaseCreateView.as_view()), name="phase_create"),
+    url('^phase/(?P<slug>[\w-]+)/update/$', login_required(views.PhaseUpdateView.as_view()), name="phase_update"),
+    url('^phase/(?P<slug>[\w-]+)/delete/$', login_required(views.PhaseDeleteView.as_view()), name="phase_delete"),
+    url('^phase/(?P<slug>[\w-]+)/$', login_required(views.PhaseDetailView.as_view()), name="phase_detail"),
 ]

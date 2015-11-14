@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Confirm Delete Phase{% endblock %}
+
+{% block content %}
+<h1>Are You Sure You Want To Delete {{ phase }}?</h1>
+<hr>
+
+<form action="." method="POST">
+{% csrf_token %}
+<table class="table">
+{{ form }}
+<tr>
+<td>
+    <button type="submit">
+        Yes, Delete
+    </button>
+</td>
+<td>
+    <a href="{% url 'bm:phase_list' %}" class="btn">Cancel Delete</a>
+</td>
+</tr>
+</table>
+</form>
+
+<a href="{% url 'bm:phase_list' %}">Back To Phase List</a>
+
+{% endblock %}
+
+
+

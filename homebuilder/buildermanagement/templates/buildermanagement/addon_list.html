@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load humanize thumbnail %}
+{% block title %}Add-on{% endblock %}
+
+{% block content %}
+<h1>List of Groups</h1>
+<hr>
+
+<table class="table">
+<tr>
+    <td>Item</td>
+    <td>Description</td>
+    <td>Cost</td>
+    <td></td>
+    <td></td>
+</tr>
+{% for addon in addon_list %}
+<tr>
+    <td>
+    {{ addon.item }}
+    </td>
+    <td>
+    {{ addon.item_description }}
+    </td>
+    <td>
+    ${{ addon.cost|intcomma }}
+    </td>
+    <td>
+        <a href="{% url 'bm:addon_update' addon.id %}">Edit</a>
+    </td>
+    <td>
+        <a href="{% url 'bm:addon_delete' addon.id %}">Delete</a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td><b>You have no add-ons.</b></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="{% url 'bm:addon_create' %}">Add A New Item</a>
+
+{% endblock %}
