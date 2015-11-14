@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
     dependencies = [
         ('buildermanagement', '0010_phase_slug'),
         ('buildermanagement', '0006_auto_20151113_1939'),
-        ('buildermanagement', '0009_merge'),
     ]
 
     operations = [
