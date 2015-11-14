@@ -30,17 +30,32 @@ class Group(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length = 200)
     project = models.ForeignKey('Project')
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Category, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'categories'
 
 class Room(models.Model):
     name = models.CharField(max_length = 200)
     project = models.ForeignKey('Project')
     sqfootage = models.IntegerField()
+    slug = models.SlugField()
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Room, self).save(*args, **kwargs)
+
 
 class Contact(models.Model):
     contact_type = models.CharField(max_length = 2, choices=CONTACT_TYPES)
@@ -61,9 +76,9 @@ class Item(models.Model):
     room = models.ManyToManyField(Room)
     material = models.CharField(max_length = 200)
     detail = models.TextField(max_length = 200)
-    cost = models.IntegerField()
+    cost = models.IntegerField(default=0)
     picture = models.ImageField(upload_to ="images/%Y/%m/%d", blank=True, null=True)
-    picture_url = models.URLField(max_length = 200, blank=True, null=True)
+    picture_url = models.URLField(max_length=200, blank=True, null=True)
     estimate_needed= models.BooleanField(default=False)
     slug = models.SlugField()
 
@@ -94,6 +109,9 @@ class Project(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         return super(Project, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+        return self.name
 
 class Phase(models.Model):
     start_date = models.DateTimeField()

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load humanize thumbnail %}
+{% block title %}Rooms{% endblock %}
+
+{% block content %}
+<h1>List of Groups</h1>
+<hr>
+
+<table class="table">
+<tr>
+    <td>Project</td>
+    <td>Category</td>
+    <td>Room</td>
+    <td>Material</td>
+    <td>Detail</td>
+    <td>Cost</td>
+    <td>Picture</td>
+    <td>Picture Link</td>
+    <td>Estimate Needed?</td>
+    <td></td>
+    <td></td>
+</tr>
+{% for item in item_list %}
+<tr>
+    <td>
+    {{ item.project }}
+    </td>
+    <td>
+    {{ item.category }}
+    </td>
+    <td>
+    {% for room in item.room.objects.all %}
+    {{ room }}
+    {% if not forloop.last %},{% endif %}
+    {% endfor %}
+    </td>
+    <td>
+    {{ item.material }}
+    </td>
+    <td>
+    {{ item.detail }}
+    </td>
+    <td>
+    ${{ item.cost|intcomma }}
+    </td>
+    <td>
+    {% if item.picture %}
+        {% thumbnail item.picture "100x100" crop="center" as img %}
+        <img src="{{ img.url }}">
+        {% endthumbnail %}
+    {% endif %}
+    </td>
+    <td>
+        {% if item.picture_url %}
+            <a href="{{ item.picture_url }}">Link</a>
+        {% endif %}
+    </td>
+    <td>
+        {% if item.estimate_needed %}
+            Yes
+        {% endif %}
+    </td>
+    <td>
+        <a href="{% url 'bm:item_update' item.id %}">Edit</a>
+    </td>
+    <td>
+        <a href="{% url 'bm:item_delete' item.id %}">Delete</a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td><b>You have no items.</b></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="{% url 'bm:item_create' %}">Add A New Item</a>
+
+{% endblock %}
+
+
+
