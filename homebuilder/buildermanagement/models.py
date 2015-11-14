@@ -60,7 +60,7 @@ class Room(models.Model):
 class Contact(models.Model):
     name = models.CharField(max_length = 200)
     contact_type = models.CharField(max_length = 2, choices=CONTACT_TYPES)
-    group = models.ForeignKey(Group, blank=True, null=True)
+    group = models.ForeignKey(Group)
     email = models.EmailField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     phone1 = models.CharField(max_length = 12, blank=True, null=True)
