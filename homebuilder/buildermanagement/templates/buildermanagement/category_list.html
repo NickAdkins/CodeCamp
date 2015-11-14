@@ -17,10 +17,10 @@
     {{ category.name }}
     </td>
     <td>
-        <a href="{% url 'bm:category_update' category.slug %}">Edit</a>
+        <a href="{% url 'bm:category_update' category.slug %}"class="btn btn-link btn-raised">Edit</a>
     </td>
     <td>
-        <a href="{% url 'bm:category_delete' category.slug %}">Delete</a>
+        <a href="{% url 'bm:category_delete' category.slug %}"class="btn btn-danger btn-raised">Delete</a>
     </td>
 </tr>
 {% empty %}
@@ -30,7 +30,7 @@
 {% endfor %}
 </table>
 
-<a href="{% url 'bm:category_create' %}">Add A New Category</a>
+<a href="{% url 'bm:category_create' %}" class="btn btn-primary btn-raised">Add A New Category</a>
 
 {% endblock %}
 

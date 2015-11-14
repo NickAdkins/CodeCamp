@@ -42,10 +42,10 @@
     {{ contact.phone2 }}
     </td>
     <td>
-        <a href="{% url 'bm:contact_update' contact.slug %}">Edit</a>
+        <a href="{% url 'bm:contact_update' contact.slug %}"class="btn btn-link btn-raised">Edit</a>
     </td>
     <td>
-        <a href="{% url 'bm:contact_delete' contact.slug %}">Delete</a>
+        <a href="{% url 'bm:contact_delete' contact.slug %}"class="btn btn-danger btn-raised">Delete</a>
     </td>
 </tr>
 {% empty %}
@@ -55,7 +55,7 @@
 {% endfor %}
 </table>
 
-<a href="{% url 'bm:contact_create' %}">Add A New Contact</a>
+<a href="{% url 'bm:contact_create' %}"class="btn btn-primary btn-raised">Add A New Contact</a>
 
 {% endblock %}
 

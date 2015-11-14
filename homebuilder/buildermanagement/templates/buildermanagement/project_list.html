@@ -24,16 +24,16 @@
     <td>{% if project.plansfile %}<a href="{{ project.plansfile.url }}">Plans</a>{% endif %}</td>
     <td>{{ project.address }}</td>
     <td>{{ project.budget }}</td>
-    <td><a href="{% url 'bm:project_update' project.slug %}">Edit</a></td>
-    <td><a href="{% url 'bm:project_delete' project.slug %}">Delete</a></td>
+    <td><a href="{% url 'bm:project_update' project.slug %}"class="btn btn-link btn-raised">Edit</a></td>
+    <td><a href="{% url 'bm:project_delete' project.slug %}"class="btn btn-danger btn-raised">Delete</a></td>
 </tr>
 {% empty %}
 <tr>
-<td colspan="8">You have no projects yet. Want to <a href="{% url 'bm:project_create' %}">create one?</a></td>>
+<td colspan="8"><a href="{% url 'bm:project_create' %}" class="btn btn-link btn-raised">Create One?</a></td>>
 </tr>
 {% endfor %}
 </table>
 
-<a href="{% url 'bm:project_create' %}">Create A New Project</a>
+<a href="{% url 'bm:project_create' %}" class="btn btn-primary btn-raised">Create A New Project</a>
 
 {% endblock %}

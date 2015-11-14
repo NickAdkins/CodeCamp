@@ -15,7 +15,7 @@
 {{ form }}
 <tr>
 <td colspan="2" align="right">
-    <button type="submit">
+    <button type="submit"class="btn btn-link btn-raised">
         {% if object %}
         Update
         {% else %}
@@ -27,7 +27,7 @@
 </table>
 </form>
 
-<a href="{% url 'bm:contact_list' %}">Back To Contact List</a>
+<a href="{% url 'bm:contact_list' %}"class="btn btn-primary btn-raised">Back To Contact List</a>
 
 {% endblock %}
 

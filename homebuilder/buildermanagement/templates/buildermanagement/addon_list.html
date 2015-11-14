@@ -26,10 +26,10 @@
     ${{ addon.cost|intcomma }}
     </td>
     <td>
-        <a href="{% url 'bm:addon_update' addon.id %}">Edit</a>
+        <a href="{% url 'bm:addon_update' addon.id %}"class="btn btn-link btn-raised">Edit</a>
     </td>
     <td>
-        <a href="{% url 'bm:addon_delete' addon.id %}">Delete</a>
+        <a href="{% url 'bm:addon_delete' addon.id %}"class="btn btn-danger btn-raised">Delete</a>
     </td>
 </tr>
 {% empty %}
@@ -39,6 +39,6 @@
 {% endfor %}
 </table>
 
-<a href="{% url 'bm:addon_create' %}">Add A New Item</a>
+<a href="{% url 'bm:addon_create' %}"class="btn btn-primary btn-raised">Add A New Item</a>
 
 {% endblock %}

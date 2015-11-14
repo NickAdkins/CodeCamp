@@ -15,7 +15,7 @@
 {{ form }}
 <tr>
 <td colspan="2" align="right">
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn btn-link btn-raised">
         {% if object %}
         Update
         {% else %}
@@ -27,7 +27,7 @@
 </table>
 </form>
 
-<a href="{% url 'bm:phase_list' %}">Back To Phase List</a>
+<a href="{% url 'bm:phase_list' %}"class="btn btn-primary btn-raised">Back To Phase List</a>
 
 {% endblock %}
 

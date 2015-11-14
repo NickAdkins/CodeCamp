@@ -61,10 +61,10 @@
         {% endif %}
     </td>
     <td>
-        <a href="{% url 'bm:item_update' item.id %}">Edit</a>
+        <a href="{% url 'bm:item_update' item.id %}"class="btn btn-link btn-raised">Edit</a>
     </td>
     <td>
-        <a href="{% url 'bm:item_delete' item.id %}">Delete</a>
+        <a href="{% url 'bm:item_delete' item.id %}"class="btn btn-danger btn-raised">Delete</a>
     </td>
 </tr>
 {% empty %}
@@ -74,7 +74,7 @@
 {% endfor %}
 </table>
 
-<a href="{% url 'bm:item_create' %}">Add A New Item</a>
+<a href="{% url 'bm:item_create' %}" class="btn btn-primary btn-raised">Add A New Item</a>
 
 {% endblock %}
 

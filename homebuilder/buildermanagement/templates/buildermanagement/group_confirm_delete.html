@@ -11,18 +11,18 @@
 {{ form }}
 <tr>
 <td>
-    <button type="submit">
+    <button type="submit"class="btn btn-danger btn-raised">
         Yes, Delete
     </button>
 </td>
 <td>
-    <a href="{% url 'bm:group_list' %}" class="btn">Cancel Delete</a>
+    <a href="{% url 'bm:group_list' %}" class="btn btn-link btn-raised">Cancel Delete</a>
 </td>
 </tr>
 </table>
 </form>
 
-<a href="{% url 'bm:group_list' %}">Back To Group List</a>
+<a href="{% url 'bm:group_list' %}"class="btn btn-primary btn-raised">Back To Group List</a>
 
 {% endblock %}
 

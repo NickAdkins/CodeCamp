@@ -25,10 +25,10 @@
     {{ room.sqfootage }}
     </td>
     <td>
-        <a href="{% url 'bm:room_update' room.slug %}">Edit</a>
+        <a href="{% url 'bm:room_update' room.slug %}"class="btn btn-link btn-raised">Edit</a>
     </td>
     <td>
-        <a href="{% url 'bm:room_delete' room.slug %}">Delete</a>
+        <a href="{% url 'bm:room_delete' room.slug %}"class="btn btn-danger btn-raised">Delete</a>
     </td>
 </tr>
 {% empty %}
@@ -38,7 +38,7 @@
 {% endfor %}
 </table>
 
-<a href="{% url 'bm:room_create' %}">Add A New Room</a>
+<a href="{% url 'bm:room_create' %}" class="btn btn-primary btn-raised">Add A New Room</a>
 
 {% endblock %}
 

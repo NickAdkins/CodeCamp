@@ -70,10 +70,10 @@ $(document).ready(function() {
     {% if phase.completed %}Yes{% else %}No{% endif %}
     </td>
     <td>
-        <a href="{% url 'bm:phase_update' phase.slug %}">Edit</a>
+        <a href="{% url 'bm:phase_update' phase.slug %}"class="btn btn-link btn-raised">Edit</a>
     </td>
     <td>
-        <a href="{% url 'bm:phase_delete' phase.slug %}">Delete</a>
+        <a href="{% url 'bm:phase_delete' phase.slug %}"class="btn btn-danger btn-raised">Delete</a>
     </td>
 </tr>
 {% empty %}

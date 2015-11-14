@@ -12,9 +12,10 @@
   {{ form }}
 <tr>
     <td colspan="2" align="right">
-  <button class="btn btn-default">{% if project %}Update{% else %}Create{% endif %}</button>
+  <button class="btn btn-link btn-raised">{% if project %}Update{% else %}Create{% endif %}</button>
     </td>
 </table>
 </form>
 
+<a href="{% url 'bm:project_list' %}" class="btn btn-primary btn-raised">Return to Project List</a>
 {% endblock %}
