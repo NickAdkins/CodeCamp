@@ -58,7 +58,15 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li><a href="{% url 'bm:phase_list' %}">Home</a></li>
+            <li><a href="{% url 'bm:phase_list' %}">Phases</a></li>
+            <li><a href="{% url 'bm:project_list' %}">Projects</a></li>
+            <li><a href="{% url 'bm:item_list' %}">Items</a></li>
+            <li><a href="{% url 'bm:addon_list' %}">Add Ons</a></li>
+            <li><a href="{% url 'bm:contact_list' %}">Contacts</a></li>
+            <li><a href="{% url 'bm:room_list' %}">Rooms</a></li>
+            <li><a href="{% url 'bm:category_list' %}">Categories</a></li>
+            <li><a href="{% url 'bm:group_list' %}">Group</a></li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
