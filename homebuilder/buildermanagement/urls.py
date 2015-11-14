@@ -31,4 +31,11 @@ urlpatterns = [
     url('^item/(?P<pk>\d+)/update/$', login_required(views.ItemUpdateView.as_view()), name="item_update"),
     url('^item/(?P<pk>\d+)/delete/$', login_required(views.ItemDeleteView.as_view()), name="item_delete"),
     url('^item/(?P<pk>\d+)/$', login_required(views.ItemDetailView.as_view()), name="item_detail"),
+
+    # Contacts
+    url('^contacts/$', login_required(views.ContactListView.as_view()), name="contact_list"),
+    url('^contact/new/$', login_required(views.ContactCreateView.as_view()), name="contact_create"),
+    url('^contact/(?P<slug>[\w-]+)/update/$', login_required(views.ContactUpdateView.as_view()), name="contact_update"),
+    url('^contact/(?P<slug>[\w-]+)/delete/$', login_required(views.ContactDeleteView.as_view()), name="contact_delete"),
+    url('^contact/(?P<slug>[\w-]+)/$', login_required(views.ContactDetailView.as_view()), name="contact_detail"),
 ]

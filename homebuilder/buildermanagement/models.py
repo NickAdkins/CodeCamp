@@ -58,17 +58,22 @@ class Room(models.Model):
 
 
 class Contact(models.Model):
+    name = models.CharField(max_length = 200)
     contact_type = models.CharField(max_length = 2, choices=CONTACT_TYPES)
     group = models.ForeignKey(Group, blank=True, null=True)
-    name = models.CharField(max_length = 200)
     email = models.EmailField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     phone1 = models.CharField(max_length = 12, blank=True, null=True)
     phone2 = models.CharField(max_length = 12, blank=True, null=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
+    slug = models.SlugField()
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Contact, self).save(*args, **kwargs)
 
 class Item(models.Model):
     project = models.ForeignKey('Project')

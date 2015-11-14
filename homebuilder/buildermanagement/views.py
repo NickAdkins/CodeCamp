@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Project, Group, Contact, Room, Category, Item, AddOn
-from .forms import RoomForm, CategoryForm, ItemForm
+from .forms import RoomForm, CategoryForm, ItemForm, ContactForm
 
 # Create your views here.
 """
@@ -187,4 +187,48 @@ class ItemDeleteView(SuccessMessageMixin, DeleteView):
     model = Item
     success_url = reverse_lazy('bm:item_list')
     success_message = "Item %(material)s deleted successfully!"
+    
+"""
+    Contacts
+"""
+class ContactListView(ListView):
+    model = Contact
+
+    def get_queryset(self):
+        return Contact.objects.filter(group__user = self.request.user).order_by('name')
+
+class ContactDetailView(DetailView):
+    model = Contact
+    
+    # Make it so that users don't see objects that belong to someone else
+    def get_queryset(self):
+        return Contact.objects.filter(group__user = self.request.user)
+
+
+class ContactCreateView(SuccessMessageMixin, CreateView):
+    model = Contact
+    success_url = reverse_lazy('bm:contact_list')
+    success_message = "Contact %(name)s created successfully!"
+    form_class = ContactForm
+
+    def get_form_kwargs(self):
+        kwargs = super(ContactCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class ContactUpdateView(SuccessMessageMixin, UpdateView):
+    model = Contact
+    success_url = reverse_lazy('bm:contact_list')
+    success_message = "Contact %(name)s updated successfully!"
+    form_class = ContactForm
+    
+    def get_form_kwargs(self):
+        kwargs = super(ContactUpdateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class ContactDeleteView(SuccessMessageMixin, DeleteView):
+    model = Contact
+    success_url = reverse_lazy('bm:contact_list')
+    success_message = "Contact %(name)s deleted successfully!"
     
