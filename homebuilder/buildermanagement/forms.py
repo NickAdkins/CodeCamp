@@ -1,6 +1,6 @@
 from django import forms
 from django.db.models import Q
-from .models import Room, Project, Contact, Item, Category
+from .models import Room, Project, Contact, Item, Category, AddOn
 
 class RoomForm(forms.ModelForm):
    class Meta:
@@ -42,3 +42,15 @@ class CategoryForm(forms.ModelForm):
    def __init__(self, request, *args, **kwargs):
       super(CategoryForm, self).__init__(*args, **kwargs)
       self.fields['project'].queryset = Project.objects.filter(builder__user = request.user)
+
+class AddOnForm(forms.ModelForm):
+   class Meta:
+       model = AddOn 
+       fields = ['item', 'item_description', 'cost']
+
+   def __init__(self, request, *args, **kwargs):
+      super(AddOnForm, self).__init__(*args, **kwargs)
+      self.fields['item'].queryset = Item.objects.filter(
+          Q(project__builder__user = request.user) |
+          Q(project__buyer__user = request.user) 
+      )

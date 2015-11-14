@@ -5,7 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from .models import Project, Group, Contact, Room, Category, Item, AddOn
-from .forms import RoomForm, CategoryForm, ItemForm
+from .forms import RoomForm, CategoryForm, ItemForm, AddOnForm
 
 # Create your views here.
 """
@@ -188,3 +188,52 @@ class ItemDeleteView(SuccessMessageMixin, DeleteView):
     success_url = reverse_lazy('bm:item_list')
     success_message = "Item %(material)s deleted successfully!"
     
+   ######AddOn#######
+
+class AddOnListView(ListView):
+    model = AddOn
+
+    def get_queryset(self):
+        return AddOn.objects.filter(
+            Q(item__project__builder__user = self.request.user) |
+            Q(item__project__buyer__user = self.request.user) 
+        )#.order_by('project')
+
+class AddOnDetailView(DetailView):
+    model = AddOn 
+    
+    # Make it so that users don't see objects that belong to someone else
+    def get_queryset(self):
+        return AddOn.objects.filter(
+            Q(item__project__builder__user = self.request.user) | 
+            Q(item__project__buyer__user = self.request.user) 
+        )
+
+
+class AddOnCreateView(SuccessMessageMixin, CreateView):
+    model = AddOn 
+    success_url = reverse_lazy('bm:addon_list')
+    success_message = "AddOn %(item_description)s created successfully!"
+    form_class = AddOnForm
+
+    def get_form_kwargs(self):
+        kwargs = super(AddOnCreateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class AddOnUpdateView(SuccessMessageMixin, UpdateView):
+    model = AddOn 
+    success_url = reverse_lazy('bm:addon_list')
+    success_message = "AddOn %(item_description)s updated successfully!"
+    form_class = AddOnForm
+    
+    def get_form_kwargs(self):
+        kwargs = super(AddOnUpdateView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class AddOnDeleteView(SuccessMessageMixin, DeleteView):
+    model = AddOn 
+    success_url = reverse_lazy('bm:addon_list')
+    success_message = "AddOn %(item_description)s deleted successfully!"
+ 

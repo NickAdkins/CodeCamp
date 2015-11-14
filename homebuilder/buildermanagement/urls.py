@@ -31,4 +31,11 @@ urlpatterns = [
     url('^item/(?P<pk>\d+)/update/$', login_required(views.ItemUpdateView.as_view()), name="item_update"),
     url('^item/(?P<pk>\d+)/delete/$', login_required(views.ItemDeleteView.as_view()), name="item_delete"),
     url('^item/(?P<pk>\d+)/$', login_required(views.ItemDetailView.as_view()), name="item_detail"),
+
+    #AddOn
+    url('^addons/$', login_required(views.AddOnListView.as_view()), name="addon_list"),
+    url('^addon/new/$', login_required(views.AddOnCreateView.as_view()), name="addon_create"),
+    url('^addon/(?P<pk>\d+)/update/$', login_required(views.AddOnUpdateView.as_view()), name="addon_update"),
+    url('^addon/(?P<pk>\d+)/delete/$', login_required(views.AddOnDeleteView.as_view()), name="addon_delete"),
+    url('^addon/(?P<pk>\d+)/$', login_required(views.AddOnDetailView.as_view()), name="addon_detail"),
 ]
