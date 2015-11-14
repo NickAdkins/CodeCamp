@@ -142,7 +142,11 @@ class CategoryUpdateView(SuccessMessageMixin, UpdateView):
 class CategoryDeleteView(SuccessMessageMixin, DeleteView):
     model = Category
     success_url = reverse_lazy('bm:category_list')
-    success_message = "Category %(name)s deleted successfully!"
+    success_message = "Category deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(CategoryDeleteView, self).delete(request, *args, **kwargs)
 
 """
     Rooms
@@ -189,7 +193,11 @@ class RoomUpdateView(SuccessMessageMixin, UpdateView):
 class RoomDeleteView(SuccessMessageMixin, DeleteView):
     model = Room
     success_url = reverse_lazy('bm:room_list')
-    success_message = "Room %(name)s deleted successfully!"
+    success_message = "Room deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(RoomDeleteView, self).delete(request, *args, **kwargs)
 
 """
     Items
@@ -239,7 +247,11 @@ class ItemUpdateView(SuccessMessageMixin, UpdateView):
 class ItemDeleteView(SuccessMessageMixin, DeleteView):
     model = Item
     success_url = reverse_lazy('bm:item_list')
-    success_message = "Item %(material)s deleted successfully!"
+    success_message = "Item deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(ItemDeleteView, self).delete(request, *args, **kwargs)
 
    ######AddOn#######
 
@@ -288,7 +300,11 @@ class AddOnUpdateView(SuccessMessageMixin, UpdateView):
 class AddOnDeleteView(SuccessMessageMixin, DeleteView):
     model = AddOn
     success_url = reverse_lazy('bm:addon_list')
-    success_message = "AddOn %(item_description)s deleted successfully!"
+    success_message = "AddOn deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(AddOnDeleteView, self).delete(request, *args, **kwargs)
 
 """
     Contacts
@@ -332,7 +348,11 @@ class ContactUpdateView(SuccessMessageMixin, UpdateView):
 class ContactDeleteView(SuccessMessageMixin, DeleteView):
     model = Contact
     success_url = reverse_lazy('bm:contact_list')
-    success_message = "Contact %(name)s deleted successfully!"
+    success_message = "Contact deleted successfully!"
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(ContactDeleteView, self).delete(request, *args, **kwargs)
 
 """
     Phases
@@ -382,5 +402,8 @@ class PhaseUpdateView(SuccessMessageMixin, UpdateView):
 class PhaseDeleteView(SuccessMessageMixin, DeleteView):
     model = Phase
     success_url = reverse_lazy('bm:phase_list')
-    success_message = "Phase %(name)s deleted successfully!"
+    success_message = "Phase deleted successfully!"
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(PhaseDeleteView, self).delete(request, *args, **kwargs)
