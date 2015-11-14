@@ -2,14 +2,28 @@
 {% load humanize thumbnail %}
 {% block title %}Phases{% endblock %}
 
-{% block extrascript %}
+{% block extrascripts %}
 <script>
 $(document).ready(function() {
 
     // page is now ready, initialize the calendar...
 
     $('#calendar').fullCalendar({
-        // put your options and callbacks here
+            header: {
+              left: 'prev,next today',
+              center: 'title',
+              right: 'month,agendaWeek,agendaDay'
+            },
+            editable: true,
+            events: [ // put the array in the `events` property
+            {% for phase in phase_list %}
+                {
+                    title  : '{{ phase.name }}',
+                    start  : '{{ phase.start_date|date:"%Y-%m-%d" }}',
+                    end    : '{{ phase.end_date|date:"%Y-%m-%d" }}'
+                },
+            {% endfor %}
+            ],
     })
 
 });
