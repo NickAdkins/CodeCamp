@@ -11,6 +11,7 @@
             <th>Buyer</th>
             <th>Address</th>
             <th>Budget</th>
+            <th>Plans</th>
         </tr>
       </thead>
       <tbody>
@@ -19,7 +20,7 @@
             <td>{{ project.buyer }}</td>
             <td>{{ project.address }}</td>
             <td>{{ project.budget }}</td>
-            <td>{{ project.url }}</td>
+            <td><a href="{{ project.plansfile.url }}">{{ project.plansfile }}</a></td>
         </tr>
       </tbody>
 </table>

@@ -74,6 +74,9 @@ class ProjectCreateView(SuccessMessageMixin, CreateView):
     def form_valid(self, form):
         # Set the builder
         project = form.save(commit=False)
+        if 'plansfile' in self.request.FILES:
+            project.plansfile = self.get_form_kwargs().get('files')['plansfile']
+            project.save()
         project.builder = Contact.objects.get(user = self.request.user)
         return super(ProjectCreateView, self).form_valid(form)
 
@@ -233,7 +236,7 @@ class ItemDeleteView(SuccessMessageMixin, DeleteView):
     model = Item
     success_url = reverse_lazy('bm:item_list')
     success_message = "Item %(material)s deleted successfully!"
-    
+
 """
     Contacts
 """
@@ -245,7 +248,7 @@ class ContactListView(ListView):
 
 class ContactDetailView(DetailView):
     model = Contact
-    
+
     # Make it so that users don't see objects that belong to someone else
     def get_queryset(self):
         return Contact.objects.filter(group__user = self.request.user)
@@ -267,7 +270,7 @@ class ContactUpdateView(SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('bm:contact_list')
     success_message = "Contact %(name)s updated successfully!"
     form_class = ContactForm
-    
+
     def get_form_kwargs(self):
         kwargs = super(ContactUpdateView, self).get_form_kwargs()
         kwargs['request'] = self.request
@@ -277,4 +280,4 @@ class ContactDeleteView(SuccessMessageMixin, DeleteView):
     model = Contact
     success_url = reverse_lazy('bm:contact_list')
     success_message = "Contact %(name)s deleted successfully!"
-    
+
