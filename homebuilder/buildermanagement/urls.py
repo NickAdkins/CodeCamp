@@ -11,6 +11,13 @@ urlpatterns = [
     url('^groups/(?P<slug>[\w-]+)/delete/$', login_required(views.GroupDeleteView.as_view()), name="group_delete"),
     url('^groups/(?P<slug>[\w-]+)/$', login_required(views.GroupDetailView.as_view()), name="group_detail"),
 
+    # Categories
+    url('^categories/$', login_required(views.CategoryListView.as_view()), name="category_list"),
+    url('^categories/new/$', login_required(views.CategoryCreateView.as_view()), name="category_create"),
+    url('^categories/(?P<slug>[\w-]+)/update/$', login_required(views.CategoryUpdateView.as_view()), name="category_update"),
+    url('^categories/(?P<slug>[\w-]+)/delete/$', login_required(views.CategoryDeleteView.as_view()), name="category_delete"),
+    url('^categories/(?P<slug>[\w-]+)/$', login_required(views.CategoryDetailView.as_view()), name="category_detail"),
+
     # Rooms
     url('^rooms/$', login_required(views.RoomListView.as_view()), name="room_list"),
     url('^room/new/$', login_required(views.RoomCreateView.as_view()), name="room_create"),

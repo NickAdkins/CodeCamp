@@ -30,9 +30,18 @@ class Group(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length = 200)
     project = models.ForeignKey('Project')
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Category, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'categories'
 
 class Room(models.Model):
     name = models.CharField(max_length = 200)
@@ -93,7 +102,6 @@ class Project(models.Model):
 
     def __unicode__(self):
         return self.name
-
 
 class Phase(models.Model):
     start_date = models.DateTimeField()

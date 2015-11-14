@@ -33,3 +33,12 @@ class ItemForm(forms.ModelForm):
           Q(project__builder__user = request.user) |
           Q(project__buyer__user = request.user) 
       )
+
+class CategoryForm(forms.ModelForm):
+   class Meta:
+       model = Category 
+       fields = ['name', 'project']
+
+   def __init__(self, request, *args, **kwargs):
+      super(CategoryForm, self).__init__(*args, **kwargs)
+      self.fields['project'].queryset = Project.objects.filter(builder__user = request.user)
