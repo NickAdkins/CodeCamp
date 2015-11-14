@@ -1,77 +1,78 @@
 from django.shortcuts import render
-from django.views.generic import ListView
-from viewsets import ModelViewSet
+from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 from .models import Project, Group, Contact, Room, Category, Item, AddOn
 
 # Create your views here.
 class GroupListView(ListView):
     model = Group
+    def get_queryset(self):
+        return Group.objects.filter(user = self.request.user)
 
-# Contact Views #
+class GroupDetailView(DetailView):
+    model = Group
 
-class ContactListView(ListView):
-    models = Contact
+    # Make it so that users don't see objects that belong to someone else
+    def get_queryset(self):
+        return Group.objects.filter(user = self.request.user)
 
-#class ContactDetailView(DetailView):
-#    models Contact
-#
-#class ContactCreateView(CreateView):
-#    models Contact
-#    success_url = reverse_lazy('bm:contact_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-#class ContactUpdateView(UpdateView):
-#    models Contact
-#    success_url = reverse_lazy('bm:contact_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-#class ContactDeleteView(DeleteView):
-#    models Contact
-#    success_url = reverse_lazy('bm:contact_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-## Project Views #
-#
-#class ProjectListView(ListView):
-#    models = Project
-#
-#class ProjectDetailView(DetailView):
-#    models Project
-#
-#class ProjectCreateView(CreateView):
-#    models Project
-#    success_url = reverse_lazy('bm:project_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-#class ProjectUpdateView(UpdateView):
-#    models Project
-#    success_url = reverse_lazy('bm:project_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-#class ProjectDeleteView(DeleteView):
-#    models Project
-#    success_url = reverse_lazy('bm:project_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-## Item Views #
-#
-#class ItemListView(ListView):
-#    models = Item
-#
-#class ItemDetailView(DetailView):
-#    models Item
-#
-#class ItemCreateView(CreateView):
-#    models Item
-#    success_url = reverse_lazy('bm:item_list.html')
-#    success_message = "%(name)s was created successfully"
-#
-#class ItemUpdateView(UpdateView):
-#    models Item
-#    success_url = reverse_lazy('bm:item_list.html')
-#    success_message = "%(name)s was updated successfully"
-#
-#class ItemDeleteView(DeleteView):
-#    models Item
-#    success_url = reverse_lazy('bm:item_list.html')
-#    success_message = "%(name)s was deleted successfully"
+
+class GroupCreateView(SuccessMessageMixin, CreateView):
+    model = Group
+    success_url = reverse_lazy('bm:group_list')
+    success_message = "Group %(name)s created successfully!"
+    fields = ['name']
+
+    def form_valid(self, form):
+        # Set the user
+        group = form.save(commit=False)
+        group.user = self.request.user
+        return super(GroupCreateView, self).form_valid(form)
+
+class GroupUpdateView(SuccessMessageMixin, UpdateView):
+    model = Group
+    success_url = reverse_lazy('bm:group_list')
+    success_message = "Group %(name)s updated successfully!"
+    fields = ['name']
+
+class GroupDeleteView(SuccessMessageMixin, DeleteView):
+    model = Group
+    success_url = reverse_lazy('bm:group_list')
+    success_message = "Group %(name)s deleted successfully!"
+
+
+# Project Views #
+
+class ProjectListView(ListView):
+    model = Project
+
+    def get_queryset(self):
+        return Project.objects.filter(builder__user = self.request.user)
+
+class ProjectDetailView(DetailView):
+    model = Project
+
+class ProjectCreateView(CreateView):
+    model = Project
+    fields = ['name', 'plansfile', 'address', 'budget', 'buyer']
+    success_url = reverse_lazy('bm:project_list')
+    success_message = "%(name)s was created successfully"
+
+    def form_valid(self, form):
+        # Set the builder
+        project = form.save(commit=False)
+        project.builder = Contact.objects.get(user = self.request.user)
+        return super(ProjectCreateView, self).form_valid(form)
+
+class ProjectUpdateView(UpdateView):
+    model = Project
+    fields = ['name', 'plansfile', 'address', 'budget', 'buyer']
+    success_url = reverse_lazy('bm:project_list')
+    success_message = "%(name)s was update successfully"
+
+class ProjectDeleteView(DeleteView):
+    model = Project
+    success_url = reverse_lazy('bm:project_list')
+    success_message = "%(name)s was deleted successfully"

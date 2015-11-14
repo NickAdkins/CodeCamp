@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Create or Update A Group{% endblock %}
+
+{% block content %}
+{% if object %}
+<h1>Update Group</h1>
+{% else %}
+<h1>Create Group</h1>
+{% endif %}
+<hr>
+
+<form action="." method="POST">
+{% csrf_token %}
+<table class="table">
+{{ form }}
+<tr>
+<td colspan="2" align="right">
+    <button type="submit">
+        {% if object %}
+        Update
+        {% else %}
+        Create
+        {% endif %}
+    </button>
+</td>
+</tr>
+</table>
+</form>
+
+<a href="{% url 'bm:group_list' %}">Back To Group List</a>
+
+{% endblock %}
+
+
+

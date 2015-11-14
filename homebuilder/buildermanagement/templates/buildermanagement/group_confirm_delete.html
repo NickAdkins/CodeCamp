@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Confirm Delete Group{% endblock %}
+
+{% block content %}
+<h1>Are You Sure You Want To Delete {{ group }}?</h1>
+<hr>
+
+<form action="." method="POST">
+{% csrf_token %}
+<table class="table">
+{{ form }}
+<tr>
+<td>
+    <button type="submit">
+        Yes, Delete
+    </button>
+</td>
+<td>
+    <a href="{% url 'bm:group_list' %}" class="btn">Cancel Delete</a>
+</td>
+</tr>
+</table>
+</form>
+
+<a href="{% url 'bm:group_list' %}">Back To Group List</a>
+
+{% endblock %}
+
+
+

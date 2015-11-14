@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Buyer</th>
+            <th>Address</th>
+            <th>Budget</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td>{{ project.name }}</td>
+            <td>{{ project.buyer }}</td>
+            <td>{{ project.address }}</td>
+            <td>{{ project.budget }}</td>
+            <td>{{ project.url }}</td>
+        </tr>
+      </tbody>
+</table>
+
+{% endblock %}
