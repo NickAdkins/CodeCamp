@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load humanize thumbnail %}
+{% block title %}Phases{% endblock %}
+
+{% block content %}
+<h1>List of Phases</h1>
+<hr>
+
+<table class="table">
+<tr>
+    <th>Name</th>
+    <th>Project</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    <th>Order Materials By</th>
+    <th>Depends On</th>
+    <th>Completed?</th>
+    <th></th>
+    <th></th>
+</tr>
+{% for phase in phase_list %}
+<tr>
+    <td>
+    {{ phase.name }}
+    </td>
+    <td>
+    {{ phase.project }}
+    </td>
+    <td>
+    {{ phase.start_date }}
+    </td>
+    <td>
+    {{ phase.end_date }}
+    </td>
+    <td>
+    {{ phase.order_materials_by }}
+    </td>
+    <td>
+    {{ phase.depends_on }}
+    </td>
+    <td>
+    {% if phase.completed %}Yes{% else %}No{% endif %}
+    </td>
+    <td>
+        <a href="{% url 'bm:phase_update' phase.slug %}">Edit</a>
+    </td>
+    <td>
+        <a href="{% url 'bm:phase_delete' phase.slug %}">Delete</a>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td><b>You have no phases.</b></td>
+</tr>
+{% endfor %}
+</table>
+
+<a href="{% url 'bm:phase_create' %}">Add A New Phase</a>
+
+{% endblock %}
+
+
+
