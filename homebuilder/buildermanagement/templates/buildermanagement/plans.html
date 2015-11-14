@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+
+{% if project.plansfile %}
+    {% thumbnail project.plansfile "800x800" crop="center" as img %}
+      <img src="{{ img.url }}" class="project-img" alt="project image">
+    {% endthumbnail %}
+  {% endif %}
+
+{% endblock %}

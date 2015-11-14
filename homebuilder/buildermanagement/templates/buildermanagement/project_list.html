@@ -21,7 +21,7 @@
     <td><a href="{% url 'bm:project_detail' project.slug %}">{{ project.name }}</a></td>
     <td>{{ project.builder }}</td>
     <td>{{ project.buyer }}</td>
-    <td>{% if project.plans %}<a href="{{ project.plans }}">Link</a>{% endif %}</td>
+    <td>{% if project.plansfile %}<a href="{{ project.plansfile.url }}">Plans</a>{% endif %}</td>
     <td>{{ project.address }}</td>
     <td>{{ project.budget }}</td>
     <td><a href="{% url 'bm:project_update' project.slug %}">Edit</a></td>
