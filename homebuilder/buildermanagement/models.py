@@ -58,17 +58,22 @@ class Room(models.Model):
 
 
 class Contact(models.Model):
+    name = models.CharField(max_length = 200)
     contact_type = models.CharField(max_length = 2, choices=CONTACT_TYPES)
     group = models.ForeignKey(Group, blank=True, null=True)
-    name = models.CharField(max_length = 200)
     email = models.EmailField(blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     phone1 = models.CharField(max_length = 12, blank=True, null=True)
     phone2 = models.CharField(max_length = 12, blank=True, null=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, blank=True, null=True)
+    slug = models.SlugField()
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Contact, self).save(*args, **kwargs)
 
 class Item(models.Model):
     project = models.ForeignKey('Project')
@@ -80,6 +85,11 @@ class Item(models.Model):
     picture = models.ImageField(upload_to ="images/%Y/%m/%d", blank=True, null=True)
     picture_url = models.URLField(max_length=200, blank=True, null=True)
     estimate_needed= models.BooleanField(default=False)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.material)
+        return super(Item, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.material
@@ -95,10 +105,15 @@ class AddOn(models.Model):
 class Project(models.Model):
     name = models.CharField(max_length = 200)
     buyer = models.ForeignKey(Contact, related_name='buyer_set')
-    plansfile = models.FileField(upload_to="files/%Y/%m/%d", blank=True, null=True)
+    plansfile = models.FileField('Plans file', upload_to="files/%Y/%m/%d", blank=True, null=True)
     builder = models.ForeignKey(Contact, related_name='builder_set')
     address = models.TextField(blank=True, null=True)
     budget = models.IntegerField(blank=True, null=True)
+    slug = models.SlugField()
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        return super(Project, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name

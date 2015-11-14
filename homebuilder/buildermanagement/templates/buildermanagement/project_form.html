@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if project %}Update {{ project.name }} {% else %}Create a Project{% endif %}{% endblock %}
+
+{% block content %}
+<h1>{% if project %}Update {{ project.name }} {% else %}Create a Project{% endif %}</h1>
+<hr>
+
+<form action="." method="post">
+  {% csrf_token %}
+<table class="table">
+  {{ form }}
+<tr>
+    <td colspan="2" align="right">
+  <button class="btn btn-default">{% if project %}Update{% else %}Create{% endif %}</button>
+    </td>
+</table>
+</form>
+
+{% endblock %}

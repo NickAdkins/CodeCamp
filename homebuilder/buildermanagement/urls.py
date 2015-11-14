@@ -11,6 +11,13 @@ urlpatterns = [
     url('^groups/(?P<slug>[\w-]+)/delete/$', login_required(views.GroupDeleteView.as_view()), name="group_delete"),
     url('^groups/(?P<slug>[\w-]+)/$', login_required(views.GroupDetailView.as_view()), name="group_detail"),
 
+    # Projects
+    url('projects/$', views.ProjectListView.as_view(), name="project_list"),
+    url('projects/create/$', login_required(views.ProjectCreateView.as_view()), name="project_create"),
+    url('projects/(?P<slug>[\w-]+)/$', login_required(views.ProjectDetailView.as_view()), name="project_detail"),
+    url('projects/(?P<slug>[\w-]+)/update/$', login_required(views.ProjectUpdateView.as_view()), name="project_update"),
+    url('projects/(?P<slug>[\w-]+)/delete/$', login_required(views.ProjectDeleteView.as_view()), name="project_delete"),
+
     # Categories
     url('^categories/$', login_required(views.CategoryListView.as_view()), name="category_list"),
     url('^categories/new/$', login_required(views.CategoryCreateView.as_view()), name="category_create"),
@@ -38,4 +45,11 @@ urlpatterns = [
     url('^addon/(?P<pk>\d+)/update/$', login_required(views.AddOnUpdateView.as_view()), name="addon_update"),
     url('^addon/(?P<pk>\d+)/delete/$', login_required(views.AddOnDeleteView.as_view()), name="addon_delete"),
     url('^addon/(?P<pk>\d+)/$', login_required(views.AddOnDetailView.as_view()), name="addon_detail"),
+    
+    # Contacts
+    url('^contacts/$', login_required(views.ContactListView.as_view()), name="contact_list"),
+    url('^contact/new/$', login_required(views.ContactCreateView.as_view()), name="contact_create"),
+    url('^contact/(?P<slug>[\w-]+)/update/$', login_required(views.ContactUpdateView.as_view()), name="contact_update"),
+    url('^contact/(?P<slug>[\w-]+)/delete/$', login_required(views.ContactDeleteView.as_view()), name="contact_delete"),
+    url('^contact/(?P<slug>[\w-]+)/$', login_required(views.ContactDetailView.as_view()), name="contact_detail"),
 ]
